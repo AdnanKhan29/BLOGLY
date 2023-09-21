@@ -99,8 +99,11 @@ function Post() {
 
 
 
-         
+         {/* Post page */}
 
+            <div>
+                
+            </div>
 
             {/* Footer */}
 
