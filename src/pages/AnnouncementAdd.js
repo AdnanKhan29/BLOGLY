@@ -1,60 +1,15 @@
-import React,{useState}  from 'react';
+import React,{useState} from 'react';
 import Switcher from '../components/Switcher';
 import Nav from '../components/Nav';
 import { BsFillPlusCircleFill } from "react-icons/bs";
 import { Link } from 'react-router-dom';
-import { CiImageOn } from "react-icons/ci";
-import { toast } from "react-toastify";
 
-function Post() {
+function AnnouncementsAdd() {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleDropdown = () => {
       setIsOpen(!isOpen);
     };
-    const [title, setTitle] = useState("");
-    const [desc, setDesc] = useState("");
-    const [photo, setPhoto] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const [selectedTags, setSelectedTags] = useState([]); // State for selected tags
-    const availableTags = ["Technology", "Travel", "Food", "Fashion", "Sports", "Health"];
-    const handleImage = (e) => {
-      const file = e.target.files[0];
-      setFileToBase(file);
-    };
-  
-    const setFileToBase = (file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = () => {
-        setPhoto(reader.result);
-      };
-    };
-  
-    const handleTagChange = (tag) => {
-        // Check if the tag is already selected
-        if (selectedTags.includes(tag)) {
-          setSelectedTags(selectedTags.filter((t) => t !== tag)); // Deselect the tag
-        } else {
-          setSelectedTags([...selectedTags, tag]); // Select the tag
-        }
-      };
-
-    const formSubmit = async (e) => {
-      e.preventDefault();
-  
-      // Simulate a successful post submission for demonstration purposes
-      setIsLoading(true); // Set loading state to true
-  
-      setTimeout(() => {
-        setIsLoading(false); // Set loading state back to false after a simulated delay
-        toast.success("Post Uploaded", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-          autoClose: 3000,
-        });
-      }, 2000);
-    };
-  
   return (
       <div class="min-h-screen flex flex-col dark:bg-gray-950">
 
@@ -128,7 +83,7 @@ function Post() {
                     <a href="/search" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Search</a>
                 </li>
                 <li>
-                    <a href="/post" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Post</a>
+                    <a href="/post" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Post</a>
                 </li>
                 <li>
                     <a href="/recommended" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Recommended</a>
@@ -136,102 +91,30 @@ function Post() {
                 <li>
                     <a href="/announcements" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Announcements</a>
                 </li>
+                <li>
+                    <a href="/addannouncements" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Add Announcements</a>
+                </li>
+
                 <Switcher></Switcher>
                 </ul>
             </div>
             </div>
             </nav>
 
-
-
-         {/* Post page */}
-
-         <div className="container m-auto bg-gray-100 py-4 w-[50%] md:w-full mt-24">
-        <div className="mb-6">
-          <h2 className="text-3xl font-semibold text-gray-800">Create your post</h2>
-        </div>
-        <form onSubmit={formSubmit} className="flex flex-col space-y-4">
-          <div className="img relative h-[350px] bg-white w-full flex items-center justify-center overflow-hidden">
-            {photo ? (
-              <img className="h-full w-full object-cover" src={photo} alt="" />
-            ) : (
-              <div className="flex flex-col items-center justify-center">
-                <p>Upload image</p>
-                <p className="text-gray-500">Size should be less than 2MB</p>
-              </div>
-            )}
-            <input
-              type="file"
-              id="fileInput"
-              name="image"
-              style={{ display: "none" }}
-              onChange={handleImage}
-              className="bg-black w-10 h-10 text-white flex items-center justify-center"
-            />
-            <label
-              htmlFor="fileInput"
-              className="bg-black text-white p-1 cursor-pointer absolute bottom-0 left-0"
-            >
-              <CiImageOn size={30} />
-            </label>
-          </div>
-          <div>
-            <label htmlFor="title" className="text-lg font-medium text-gray-800">Title</label>
-            <input
-              id="title"
-              placeholder="Post title..."
-              className="w-full p-2 bg-white border border-gray-300 rounded"
-              type="text"
-              onChange={(e) => setTitle(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label htmlFor="desc" className="text-lg font-medium text-gray-800">Details</label>
-            <textarea
-              id="desc"
-              placeholder="Post details..."
-              className="w-full p-2 bg-white border border-gray-300 rounded"
-              rows={5}
-              type="text"
-              onChange={(e) => setDesc(e.target.value)}
-              required
-            />
-          </div>
-          <div>
-            <label className="text-lg font-medium text-gray-800">Tags</label>
-            <div className="flex flex-wrap gap-2">
-              {availableTags.map((tag) => (
-                <label key={tag} className="inline-flex items-center">
-                  <input
-                    type="checkbox"
-                    className="form-checkbox h-5 w-5 text-gray-600"
-                    checked={selectedTags.includes(tag)}
-                    onChange={() => handleTagChange(tag)}
-                  />
-                  <span className="ml-2 text-gray-800">{tag}</span>
-                </label>
-              ))}
+            <div className='h-96 flex flex-col justify-center items-center bg-img7 bg-no-repeat bg-fixed bg-seal bg-cover bg-center'>
+                <div className='h-1/3 w-1/2  bg-gray-400 rounded-md bg-clip-padding background-filter backdrop-blur-sm bg-opacity-20 p-10'>
+                    <h1 className='text-white justify-center dark:text-black text-5xl text-center'>ADD ANNOUNCEMENTS</h1>
+                </div>
             </div>
-          </div>
-          {/* Submit button */}
-          <button
-            type="submit"
-            className={`${
-              isLoading
-                ? "bg-[rgba(0,0,0,0.5)] cursor-not-allowed"
-                : "bg-gray-800 hover:bg-gray-900 text-white p-3 font-semibold rounded"
-            } w-full`}
-            disabled={isLoading} // Disable the button when loading is true
-          >
-            {isLoading ? "Uploading..." : "Upload Post"}
-          </button>
-        </form>
-      </div>
 
-            {/* Footer */}
+            <div className='justify-center items-center pt-10 pb-10'>
+                <h1 className="text-3xl text-center font-['Poppins'] subpixel-antialiased font-medium text-slate-700 dark:text-white ">ADD THE SOFTWARE UPDATE</h1>
+            </div>
 
-            <footer class="bg-white dark:bg-gray-900">
+           
+
+
+            <footer class="bg-white dark:bg-gray-900 mt-11">
                 <div class="mx-auto w-full max-w-screen-xl">
                 <div class="grid grid-cols-2 gap-8 px-4 py-6 lg:py-8 md:grid-cols-4">
                     <div>
@@ -346,4 +229,4 @@ function Post() {
   )
 }
 
-export default Post
+export default AnnouncementsAdd;

@@ -1,21 +1,60 @@
-import React from 'react'; // Assuming you're using React
-import Data from './Data'; // Import your data
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 
-const Card = ({ item }) => {
+const Card = ({ item, dark }) => {
+  // Check if item.category is an array
+  const isCategoryArray = Array.isArray(item.category);
+
+  // Define a class name based on the dark prop
+  const cardClassName = `max-w-4xl rounded overflow-hidden shadow-2xl mx-2 my-2 ${
+    dark ? 'shadow-slate-500 border-gray-900 dark:bg-gray-850 dark:border-gray-900 dark:shadow-2xl dark:shadow-slate-700' : 'shadow-gray-500 border-gray-300'
+  } p-2`;
+
   return (
-    <div className="max-w-4xl  rounded overflow-hidden shadow-2xl mx-2 my-2 shadow-slate-500 border drop-shadow-2xl border-gray-300 p-2 dark:bg-gray-850 dark:border-gray-900 dark:shadow-2xl dark:shadow-slate-700">
-      <img className="w-full h-96 object-cover" src={item.img} alt={item.title} />
-      <div className="px-6 py-4">
-        <div className="font-bold text-xl mb-2 dark:text-white">{item.title}</div>
-        <p className="text-gray-700 text-base dark:text-slate-400">{item.desc}</p>
+    <div className={cardClassName}>
+      <div className={`flex items-center justify-between mt-2 ${dark ? 'text-white' : 'text-black'}`}>
+        <div className="flex items-center">
+          <img
+            src={item.profileImg}
+            alt={item.username}
+            className="w-10 h-10 rounded-full mr-2"
+          />
+          <a href={item.profileUrl} className={`text-lg font-semibold ${dark ? 'text-gray-300 hover:underline' : 'text-black hover:underline'}`}>
+            {item.username}
+          </a>
+        </div>
+        <div className={`px-2 py-1 rounded-lg ${dark ? 'bg-gray-900' : 'bg-white'} text-black`}>
+          <h3>Posted on: {item.date}</h3>
+        </div>
       </div>
-              <div class="flex justify-between items-center mb-5 text-gray-500">
-                  <span class="bg-primary-100 text-primary-800 text-xs font-medium inline-flex items-center px-2.5 py-0.5 rounded dark:bg-primary-200 dark:text-primary-800">
-                      <svg class="mr-1 w-3 h-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"></path></svg>
-                      {item.category}
-                  </span>
-                  <span class="text-sm">14 days ago</span>
-              </div>
+      <hr className={`my-3 border-t-2 ${dark ? 'border-gray-700' : 'border-gray-300'}`} />
+      <h2 className={`text-2xl font-bold text-center my-2 ${dark ? 'text-white' : 'text-black'}`}>{item.title}</h2>
+      <img className="w-full h-96 object-cover rounded-lg" src={item.img} alt={item.title} />
+      <hr className={`my-3 border-t-2 ${dark ? 'border-gray-700' : 'border-gray-300'}`} />
+      <div className={`mb-4 text-md font-normal ${dark ? 'text-gray-300' : 'text-black'} flex justify-between`}>
+        <span className={`text-lg font-semibold ${dark ? 'text-white' : 'text-black'}`}>{item.likedcount} Likes</span>
+        {isCategoryArray && (
+          <div className="text-md font-normal text-gray-600">
+            {item.category.map((tag, index) => (
+              <span key={index} className={`mr-2 inline-flex items-center px-2 py-1 rounded-full ${dark ? 'bg-gray-700 text-gray-300' : 'bg-gray-300 text-gray-700'}`}>
+                {tag}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className={`text-lg font-medium ${dark ? 'text-gray-300' : 'text-black'}`}>
+        <p className="line-clamp-3">{item.desc} . . . </p>
+      </div>
+      <div className="text-center">
+        <Link to={`/carddata/${item.id}`}>
+          <button className={`bg-blue-500 text-white font-semibold py-2 px-4 rounded-md mt-2 hover:bg-blue-600 ${dark ? 'dark:bg-gray-700 dark:hover:bg-blue-700' : ''}`}>
+            Open Post <FontAwesomeIcon icon={faArrowRight} className="ml-2" />
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };

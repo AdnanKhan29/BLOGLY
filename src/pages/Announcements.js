@@ -91,7 +91,9 @@ function Announcements() {
                 <li>
                     <a href="/announcements" class="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Announcements</a>
                 </li>
-
+                <li>
+                    <a href="/addannouncements" class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Add Announcements</a>
+                </li>
                 <Switcher></Switcher>
                 </ul>
             </div>
@@ -100,7 +102,7 @@ function Announcements() {
 
             <div className='h-96 flex flex-col justify-center items-center bg-img7 bg-no-repeat bg-fixed bg-seal bg-cover bg-center'>
                 <div className='h-1/3 w-1/2  bg-gray-400 rounded-md bg-clip-padding background-filter backdrop-blur-sm bg-opacity-20 p-10'>
-                    <h1 className='text-white justify-center dark:text-black text-6xl text-center'>ANNOUNCEMENTS</h1>
+                    <h1 className='text-white justify-center dark:text-black text-6xl text-center'> ANNOUNCEMENTS</h1>
                 </div>
             </div>
 
@@ -108,8 +110,7 @@ function Announcements() {
                 <h1 className="text-3xl text-center font-['Poppins'] subpixel-antialiased font-medium text-slate-700 dark:text-white ">Know about our latest updates</h1>
             </div>
 
-            <div
-                class="block mr-6 ml-6 m-5 rounded-lg bg-white drop-shadow-2xl shadow-2xl shadow-slate-500 dark:bg-neutral-700 dark:shadow-slate-700">
+            <div class="block mr-6 ml-6 m-5 rounded-lg bg-white drop-shadow-2xl shadow-2xl shadow-slate-500 dark:bg-neutral-700 dark:shadow-slate-700">
                 <h5
                     class="border-b-2 border-neutral-100 px-6 py-3 text-xl font-medium leading-tight dark:border-neutral-600 dark:text-neutral-50">
                     Version 1.0.2 update
