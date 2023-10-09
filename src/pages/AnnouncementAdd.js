@@ -6,9 +6,23 @@ import { Link } from "react-router-dom";
 
 function AnnouncementsAdd() {
   const [isOpen, setIsOpen] = useState(false);
+  const [version, setVersion] = useState(""); // State for version details
+  const [description, setDescription] = useState("");
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
+  };
+  const handleVersionChange = (e) => {
+    setVersion(e.target.value);
+  };
+
+  const handleDescriptionChange = (e) => {
+    setDescription(e.target.value);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission, e.g., send the version details to an API
   };
   return (
     <div class="min-h-screen flex flex-col dark:bg-gray-950">
@@ -152,9 +166,58 @@ function AnnouncementsAdd() {
       </div>
 
       <div className="justify-center items-center pt-10 pb-10">
-        <h1 className="text-3xl text-center font-['Poppins'] subpixel-antialiased font-medium text-slate-700 dark:text-white ">
+        <h1 className="text-3xl text-center font-['Poppins'] subpixel-antialiased font-medium text-slate-700 dark:text-white">
           ADD THE SOFTWARE UPDATE
         </h1>
+        <div className="bg-gray-100 dark:bg-gray-850 p-8 rounded-lg shadow-2xl mt-10 ml-10 mr-10">
+          {/* Added padding classes here */}
+          <form onSubmit={handleSubmit} className="px-6 py-8">
+            <div className="mb-4">
+              <label
+                htmlFor="version"
+                className="block text-sm font-medium text-gray-700 dark:text-white"
+              >
+                Version Number
+              </label>
+              <input
+                type="text"
+                id="version"
+                name="version"
+                value={version}
+                onChange={handleVersionChange}
+                className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Enter version number"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 dark:text-white"
+              >
+                Description
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                value={description}
+                onChange={handleDescriptionChange}
+                rows="4"
+                className="mt-1 p-2 border rounded-md w-full"
+                placeholder="Enter description"
+                required
+              />
+            </div>
+            <div className="mt-4">
+              <button
+                type="submit"
+                className="px-4 py-2 bg-blue-700 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300"
+              >
+                Submit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
 
       <footer class="bg-white dark:bg-gray-900 mt-11">
