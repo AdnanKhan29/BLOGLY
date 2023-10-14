@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const CommentSection = () => {
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
   const [comments, setComments] = useState([]);
 
   const handleCommentChange = (e) => {
@@ -10,11 +10,11 @@ const CommentSection = () => {
 
   const handleCommentSubmit = (e) => {
     e.preventDefault();
-    if (comment.trim() === '') {
+    if (comment.trim() === "") {
       return;
     }
     setComments([...comments, comment]);
-    setComment('');
+    setComment("");
   };
 
   return (
