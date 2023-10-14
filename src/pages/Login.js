@@ -3,9 +3,28 @@ import loginImg from "../components/login.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
+import { useState } from 'react';
+import axios from 'axios';
 
 export default function Login() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [responseData, setResponseData] = useState('Loading..');
   const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://localhost:8080/auth/login', { "username":username, "password":password });
+      setResponseData(response.data);
+      console.log(response.data);
+      if (response.data === 'Login Successful') {
+        window.location.href = '/announcements'; // Replace '/home' with the actual path to your home page
+      }
+    } catch (error) {
+      console.error('Error signing up: ', error);
+    }
+  };
 
   // Function to handle the back button click
   const handleBackClick = () => {
@@ -26,7 +45,7 @@ export default function Login() {
           </button>
         </div>
 
-        <form className="max-w-[400px] w-full mx-auto rounded-lg bg-gray-150  p-8 px-8 shadow-2xl">
+        <form onSubmit={handleSubmit} className="max-w-[400px] w-full mx-auto rounded-lg bg-gray-150  p-8 px-8 shadow-2xl">
           <h2 className="text-4xl dark:text-white font-bold text-center">
             SIGN IN
           </h2>
@@ -35,6 +54,8 @@ export default function Login() {
             <input
               className="rounded-lg bg-gray-100 mt-2 p-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
               type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <div className="flex flex-col text-gray-400 py-2">
@@ -42,6 +63,8 @@ export default function Login() {
             <input
               className="p-2 rounded-lg bg-gray-100 mt-2 focus:border-blue-500 focus:bg-gray-800 focus:outline-none"
               type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           <div className="flex justify-between text-gray-400 py-2">
@@ -53,6 +76,7 @@ export default function Login() {
           <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">
             LOGIN
           </button>
+          {responseData}
         </form>
       </div>
     </div>

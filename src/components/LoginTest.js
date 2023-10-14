@@ -12,6 +12,9 @@ function LoginTest() {
       const response = await axios.post('http://localhost:8080/auth/signup', { username, password });
       setResponseData(response.data);
       console.log(response.data);
+      if (response.data === 'User signed up successfully') {
+        window.location.href = '/announcements'; // Replace '/home' with the actual path to your home page
+      }
     } catch (error) {
       console.error('Error signing up: ', error);
     }

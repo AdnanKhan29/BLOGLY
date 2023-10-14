@@ -11,6 +11,7 @@ import CardList from "./components/CardList";
 import CardData from "./components/CardData"; // Import the CardData component
 import AnnouncementAdd from "./pages/AnnouncementAdd";
 import CheckReport from "./pages/CheckReport";
+import LoginTest from "./components/LoginTest";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 
