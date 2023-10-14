@@ -1,5 +1,5 @@
-import React from 'react';
-import Switcher from './Switcher';
+import React from "react";
+import Switcher from "./Switcher";
 
 export default function NavBar() {
   return (
@@ -8,16 +8,24 @@ export default function NavBar() {
         <div className="text-white text-lg font-semibold">Your Logo</div>
         <ul className="flex space-x-4">
           <li>
-            <a href="/" className="text-white hover:text-gray-300">Home</a>
+            <a href="/" className="text-white hover:text-gray-300">
+              Home
+            </a>
           </li>
           <li>
-            <a href="/about" className="text-white hover:text-gray-300">About</a>
+            <a href="/about" className="text-white hover:text-gray-300">
+              About
+            </a>
           </li>
           <li>
-            <a href="/services" className="text-white hover:text-gray-300">Services</a>
+            <a href="/services" className="text-white hover:text-gray-300">
+              Services
+            </a>
           </li>
           <li>
-            <a href="/contact" className="text-white hover:text-gray-300">Contact</a>
+            <a href="/contact" className="text-white hover:text-gray-300">
+              Contact
+            </a>
           </li>
         </ul>
         <Switcher />

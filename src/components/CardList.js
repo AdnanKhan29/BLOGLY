@@ -1,7 +1,8 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Data from "./Data";
 import Card from "./Card";
-import './clockcss.css'
+import "./clockcss.css";
+import CardListSkeleton from "./CardListSkeleton";
 
 const CardList = () => {
   const [displayedData, setDisplayedData] = useState(Data.slice(0, 3)); // Initially display 6 items
@@ -18,84 +19,65 @@ const CardList = () => {
   // Extract unique tags from the category
   const uniqueTags = Array.from(new Set(Data.map((item) => item.category)));
 
-  // Digital Clock
-  const WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  const [time, setTime] = useState('');
-  const [date, setDate] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
-  const zeroPadding = (num, digit) => {
-    return String(num).padStart(digit, '0');
-  };
-
-  const updateTime = () => {
-    const now = new Date();
-
-    setTime(
-      zeroPadding(now.getHours(), 2) + ':' +
-      zeroPadding(now.getMinutes(), 2) + ':' +
-      zeroPadding(now.getSeconds(), 2)
-    );
-
-    setDate(
-      now.getFullYear() + '-' +
-      zeroPadding(now.getMonth() + 1, 2) + '-' +
-      zeroPadding(now.getDate(), 2) + ' ' +
-      WEEK[now.getDay()]
-    );
-  };
-
+  // Simulate a loading delay
   useEffect(() => {
-    updateTime();
-    const intervalId = setInterval(updateTime, 1000);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
 
-    return () => clearInterval(intervalId);
+    return () => clearTimeout(timer);
   }, []);
 
   return (
-    <div className="grid grid-cols-12 gap-4 xl:divide-x-2 xl:divide-y-0">
-      <div className="col-span-2 divide-y-2">
-        <div className="p-4 shadow-xl">
-        <h1>Top Tags </h1>
-        {/* Display all tags from the category */}
-        <ul>
-          <br></br>
-          {uniqueTags.map((tag, index) => (
-            <li
-              key={index}
-              className="bg-blue-500 text-white px-2 py-1 rounded-full inline-block mr-2 mb-2"
-            >
-              {tag}
-            </li>
-          ))}
-        </ul>
-        </div>
-      </div>
-
-      <div className="col-span-8">
-        <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1">
-          {displayedData.map((item) => (
-            <Card key={item.id} item={item} />
-          ))}
-        </div>
-        <div className="flex justify-center items-center mt-4">
-          {hasMoreData && (
-            <button
-              onClick={loadMoreData}
-              className="bg-blue-500 text-white px-4 py-2 rounded"
-            >
-              Read More
-            </button>
-          )}
-        </div>
-      </div>
-
-      <div className="col-span-2">
-          <div className="clock">
-            <p id="date">{date}</p>
-            <p id="time">{time}</p>
-
+    <div>
+      {isLoading ? (
+        // Render the CardSkeleton while loading
+        <CardListSkeleton />
+      ) : (
+        <div className="grid grid-cols-12 gap-4 xl:divide-x-2 xl:divide-y-0">
+          <div className="col-span-2 divide-y-2">
+            <div className="p-4 shadow-xl">
+              <h1>Top Tags</h1>
+              {/* Display all unique tags from the category */}
+              <ul>
+                <br></br>
+                {Array.from(
+                  new Set(Data.flatMap((item) => item.category)).values()
+                ).map((tag, index) => (
+                  <li key={index} className="mb-2">
+                    {/* Render each unique category element as a separate tag */}
+                    <span className="bg-blue-500 text-white px-2 py-1 rounded-full inline-block mr-2">
+                      {tag}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
-      </div>
+
+          <div className="col-span-8">
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-1">
+              {displayedData.map((item) => (
+                <Card key={item.id} item={item} />
+              ))}
+            </div>
+            <div className="flex justify-center items-center mt-4">
+              {hasMoreData && (
+                <button
+                  onClick={loadMoreData}
+                  className="bg-blue-500 text-white px-4 py-2 rounded"
+                >
+                  Read More
+                </button>
+              )}
+            </div>
+          </div>
+
+          <div className="col-span-2"></div>
+        </div>
+      )}
     </div>
   );
 };
