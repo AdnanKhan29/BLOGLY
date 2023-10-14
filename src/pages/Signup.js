@@ -47,7 +47,7 @@ export default function Signup() {
             <p>Already have an account?</p>
           </div>
           <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">
-            LOGIN
+            SIGN UP
           </button>
         </form>
       </div>
