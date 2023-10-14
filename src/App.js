@@ -10,6 +10,7 @@ import Recommended from './pages/Recommended';
 import CardList from './components/CardList';
 import CardData from './components/CardData'; // Import the CardData component
 import AnnouncementAdd from './pages/AnnouncementAdd';
+import LoginTest from './components/LoginTest';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
       <div className='App'>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/logintest" element={<LoginTest />} />
           <Route path="/search" element={<Search />} />
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/addannouncements" element={<AnnouncementAdd/>} />
