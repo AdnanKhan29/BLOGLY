@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import Data from './Data';
-import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faArrowLeft, faThumbsUp, faShare } from '@fortawesome/free-solid-svg-icons';
-import CommentSection from './CommentSection';
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import Data from "./Data";
+import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faArrowLeft,
+  faThumbsUp,
+  faShare,
+  faFlag,
+} from "@fortawesome/free-solid-svg-icons";
+import CommentSection from "./CommentSection";
 
 const CardData = () => {
   const { id } = useParams();
@@ -18,17 +23,22 @@ const CardData = () => {
   // State to manage screen width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
+  // State to manage the visibility of the report form
+  const [showReportForm, setShowReportForm] = useState(false);
+  // State to manage the visibility of the drop-down message
+  const [showDropDown, setShowDropDown] = useState(false);
+
   useEffect(() => {
     // Update windowWidth when the window is resized
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     // Remove event listener on component unmount
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -49,6 +59,38 @@ const CardData = () => {
       setLikeCount(likeCount + 1);
     }
     setLiked(!liked);
+  };
+
+  // Function to handle share button click
+  const handleShareClick = () => {
+    setShowDropDown(!showDropDown);
+    const currentURL = window.location.href;
+
+    // Use the Clipboard API to copy the URL to the clipboard
+    navigator.clipboard
+      .writeText(currentURL)
+      .then(() => {
+        alert("Link copied to clipboard: " + currentURL);
+      })
+      .catch((error) => {
+        console.error("Failed to copy link: ", error);
+      });
+  };
+  const openReportForm = () => {
+    setShowReportForm(true);
+  };
+
+  // Function to close the report form
+  const closeReportForm = () => {
+    setShowReportForm(false);
+  };
+
+  // Function to handle report form submission
+  const handleReportSubmit = (event) => {
+    event.preventDefault();
+    // You can implement the report submission logic here
+    // e.g., send a report to the server
+    closeReportForm(); // Close the report form after submission
   };
 
   return (
@@ -72,7 +114,10 @@ const CardData = () => {
               className="w-12 h-12 rounded-full mr-4"
             />
             <div>
-              <a href={postData.profileUrl} className="text-lg font-semibold text-black dark:text-white hover:underline">
+              <a
+                href={postData.profileUrl}
+                className="text-lg font-semibold text-black dark:text-white hover:underline"
+              >
                 {postData.username}
               </a>
               <div className="text-gray-600">{postData.date}</div>
@@ -84,26 +129,49 @@ const CardData = () => {
             alt={postData.title}
           />
           <div className="mb-4 text-md font-normal text-black dark:text-gray-300">
-            <span className="text-lg font-semibold">{postData.likedcount} Likes</span>
+            <span className="text-lg font-semibold">
+              {postData.likedcount} Likes
+            </span>
           </div>
           <div className="text-lg font-medium">
             {/* Remove the 'clamp-2' class to display the whole description */}
             <p className="mb-4">{postData.desc}</p>
             <div className="text-md font-normal text-gray-600">
               {postData.category.map((tag, index) => (
-                <span key={index} className="mr-2 inline-flex items-center px-2 py-1 rounded-full bg-gray-300 text-gray-700 dark:bg-gray-600 dark:text-gray-200">
+                <span
+                  key={index}
+                  className="mr-2 inline-flex items-center px-2 py-1 rounded-full bg-gray-300 text-gray-700 dark:bg-gray-600 dark:text-gray-200"
+                >
                   {tag}
                 </span>
               ))}
             </div>
             <div className="text-lg font-medium flex items-center mt-4">
-              <button className="mr-4 flex items-center" onClick={handleLikeClick}>
-                <FontAwesomeIcon icon={faThumbsUp} className={`mr-2 ${liked ? 'text-blue-500' : 'text-gray-500'}`} />
+              <button
+                className="mr-4 flex items-center"
+                onClick={handleLikeClick}
+              >
+                <FontAwesomeIcon
+                  icon={faThumbsUp}
+                  className={`mr-2 ${
+                    liked ? "text-blue-500" : "text-gray-500"
+                  }`}
+                />
                 {likeCount} Likes
               </button>
-              <button className="flex items-center">
-                <FontAwesomeIcon icon={faShare} className="text-green-500 mr-2" />
+              <button
+                className="mr-4 flex items-center"
+                onClick={handleShareClick}
+              >
+                <FontAwesomeIcon
+                  icon={faShare}
+                  className="text-green-500 mr-2"
+                />
                 Share
+              </button>
+              <button className="flex items-center" onClick={openReportForm}>
+                <FontAwesomeIcon icon={faFlag} className="text-red-500 mr-2" />
+                Report
               </button>
             </div>
           </div>
@@ -140,8 +208,7 @@ const CardData = () => {
                   key={index}
                   className="text-xs mr-2 my-1 uppercase tracking-wider border px-2 py-1 rounded-full bg-gray-300 text-gray-700 dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-400 hover:text-gray-800 cursor-default"
                   style={{
-                    // Add any additional inline styles here
-                    fontWeight: 'bold',
+                    fontWeight: "bold",
                     // Add more CSS properties as needed
                   }}
                 >
@@ -153,6 +220,41 @@ const CardData = () => {
         ) : null}
       </div>
       <CommentSection></CommentSection>
+      {showReportForm && (
+        <div className="fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-70 flex justify-center items-center">
+          <div className="bg-white rounded-lg shadow-lg p-6">
+            <h2 className="text-2xl font-semibold mb-4">Report Content</h2>
+            <form onSubmit={handleReportSubmit}>
+              {/* Add fields for reporting (e.g., textarea for comments, radio buttons for reasons) */}
+              <textarea
+                className="w-full p-2 mb-4 border rounded-lg"
+                placeholder="Enter your report here..."
+              />
+              {/* Add other report form fields here */}
+              <button
+                type="submit"
+                className="bg-red-500 text-white rounded-full px-4 py-2 hover:bg-red-600"
+              >
+                Submit Report
+              </button>
+            </form>
+            <button
+              onClick={closeReportForm}
+              className="mt-4 text-gray-600 hover:underline cursor-pointer"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
+
+      {showDropDown && (
+        <div className="fixed top-0 right-0 mt-16 mr-4 p-4 bg-white border rounded-lg shadow-lg">
+          <p>Share this page:</p>
+          <input type="text" value={window.location.href} readOnly />
+          <button onClick={handleShareClick}>Close</button>
+        </div>
+      )}
     </div>
   );
 };

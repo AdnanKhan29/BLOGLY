@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBook, faClipboard, faHeart, faEdit } from '@fortawesome/free-solid-svg-icons';
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-import Switcher from '../components/Switcher';
+import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBook,
+  faClipboard,
+  faHeart,
+  faEdit,
+} from "@fortawesome/free-solid-svg-icons";
+import NavBar from "../components/NavBar";
+import Footer from "../components/Footer";
+import Switcher from "../components/Switcher";
 
 function Profile() {
   const [profile, setProfile] = useState({
-    name: 'Maria Wanner',
-    email: 'maria@gmail.com',
-    bio: 'I love coding!',
+    name: "ADNAN KHAN",
+    email: "adnan@gmail.com",
+    bio: "I love coding!",
     profilePicture:
-      'https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80',
+      "https://images.unsplash.com/photo-1568602471122-7832951cc4c5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=facearea&facepad=2&w=300&h=300&q=80",
   });
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -32,9 +37,9 @@ function Profile() {
   };
 
   const handleCancelClick = () => {
-  setEditedProfile({ ...profile });
-  setIsEditMode(false); // Add a semicolon here
-};
+    setEditedProfile({ ...profile });
+    setIsEditMode(false); // Add a semicolon here
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -55,11 +60,11 @@ function Profile() {
     }
   };
 
-  const [activeTab, setActiveTab] = useState('Profile');
+  const [activeTab, setActiveTab] = useState("Profile");
   const [isOnline, setIsOnline] = useState(true);
 
   const narrowCardStyle = {
-    width: '150px', // Adjust the width as per your preference
+    width: "150px", // Adjust the width as per your preference
   };
 
   // Define content for Posts, Blogs, and Likes tabs
@@ -80,20 +85,24 @@ function Profile() {
       </div>
     ),
   };
-  
-  
 
   return (
-    <div className="min-h-screen flex flex-col dark-bg-gray-900 bg-cover" style={{ backgroundImage: 'url(https://img.freepik.com/free-photo/flat-lay-workstation-with-copy-space-laptop_23-2148430879.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1697155200&semt=ais)' }}>
+    <div
+      className="min-h-screen flex flex-col dark-bg-gray-900 bg-cover"
+      style={{
+        backgroundImage:
+          "url(https://img.freepik.com/free-photo/flat-lay-workstation-with-copy-space-laptop_23-2148430879.jpg?size=626&ext=jpg&ga=GA1.1.2008272138.1697155200&semt=ais)",
+      }}
+    >
       <NavBar />
       <Switcher />
-      
+
       {/* Add some space under the navbar */}
       <div className="mt-8"></div>
-      
+
       <div className="container mx-auto py-8">
         <h1 className="text-3xl font-semibold text-gray-800 dark:text-white">
-         Welcome to your profile page
+          Welcome to your profile page
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -108,11 +117,11 @@ function Profile() {
                 <div className="flex items-center">
                   <span
                     className={`mr-2 ${
-                      isOnline ? 'bg-green-500' : 'bg-red-500'
+                      isOnline ? "bg-green-500" : "bg-red-500"
                     } h-2 w-2 rounded-full`}
                   ></span>
                   <p className="text-sm font-semibold text-gray-600">
-                    {isOnline ? 'Online' : 'Offline'}
+                    {isOnline ? "Online" : "Offline"}
                   </p>
                 </div>
               </div>
@@ -159,7 +168,9 @@ function Profile() {
                     />
                   </div>
                   <div className="mb-4">
-                    <label className="block text-gray-600">Profile Picture:</label>
+                    <label className="block text-gray-600">
+                      Profile Picture:
+                    </label>
                     <input
                       type="file"
                       accept="image/*"
@@ -193,7 +204,8 @@ function Profile() {
                   className="bg-blue-500 text-white py-2 px-4 rounded hover-bg-blue-600 mt-4"
                   onClick={handleEditClick}
                 >
-                  <FontAwesomeIcon icon={faEdit} className="mr-2" /> Edit Profile
+                  <FontAwesomeIcon icon={faEdit} className="mr-2" /> Edit
+                  Profile
                 </button>
               )}
             </div>
@@ -201,35 +213,38 @@ function Profile() {
         </div>
 
         <div className="flex">
-          <div className="bg-white rounded shadow p-4 mt-4" style={narrowCardStyle}>
+          <div
+            className="bg-white rounded shadow p-4 mt-4"
+            style={narrowCardStyle}
+          >
             {/* Buttons for switching tabs */}
             <button
               className={`${
-                activeTab === 'Posts'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-400 text-white'
+                activeTab === "Posts"
+                  ? "bg-black text-white"
+                  : "bg-gray-400 text-white"
               } py-2 px-4 rounded hover:bg-black block mb-2`}
-              onClick={() => setActiveTab('Posts')}
+              onClick={() => setActiveTab("Posts")}
             >
               <FontAwesomeIcon icon={faClipboard} className="mr-2" /> Posts
             </button>
             <button
               className={`${
-                activeTab === 'Blogs'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-400 text-white'
+                activeTab === "Blogs"
+                  ? "bg-black text-white"
+                  : "bg-gray-400 text-white"
               } py-2 px-4 rounded hover-bg-blue-600 block mb-2`}
-              onClick={() => setActiveTab('Blogs')}
+              onClick={() => setActiveTab("Blogs")}
             >
               <FontAwesomeIcon icon={faBook} className="mr-2" /> Blogs
             </button>
             <button
               className={`${
-                activeTab === 'Likes'
-                  ? 'bg-black text-white'
-                  : 'bg-gray-400 text-white'
+                activeTab === "Likes"
+                  ? "bg-black text-white"
+                  : "bg-gray-400 text-white"
               } py-2 px-4 rounded hover-bg-blue-600 block mb-2`}
-              onClick={() => setActiveTab('Likes')}
+              onClick={() => setActiveTab("Likes")}
             >
               <FontAwesomeIcon icon={faHeart} className="mr-2" /> Likes
             </button>

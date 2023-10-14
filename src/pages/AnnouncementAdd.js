@@ -43,10 +43,10 @@ function AnnouncementsAdd() {
                 />
                 <div class="ml-3">
                   <h3 class="font-semibold text-gray-800 dark:text-white">
-                    Maria Wanner
+                    ADNAN KHAN
                   </h3>
                   <p class="text-sm font-medium text-gray-400">
-                    maria@gmail.com
+                    adnan@gmail.com
                   </p>
                 </div>
               </div>
@@ -76,7 +76,7 @@ function AnnouncementsAdd() {
                   {/* Dropdown content goes here */}
                   <div className="py-1" role="none">
                     <a
-                      href="#"
+                      href="/profile"
                       className="block px-4 py-2 w-28 text-sm text-center text-gray-700 hover:bg-indigo-500 hover:text-white"
                       role="menuitem"
                       onClick={toggleDropdown}
@@ -148,6 +148,14 @@ function AnnouncementsAdd() {
                   aria-current="page"
                 >
                   Add Announcements
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/checkreports"
+                  class="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  Check Reports
                 </a>
               </li>
 

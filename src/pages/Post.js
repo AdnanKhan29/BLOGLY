@@ -81,10 +81,10 @@ function Post() {
                 />
                 <div class="ml-3">
                   <h3 class="font-semibold text-gray-800 dark:text-white">
-                    Maria Wanner
+                    ADNAN KHAN
                   </h3>
                   <p class="text-sm font-medium text-gray-400">
-                    maria@gmail.com
+                    adnan@gmail.com
                   </p>
                 </div>
               </div>
@@ -114,7 +114,7 @@ function Post() {
                   {/* Dropdown content goes here */}
                   <div className="py-1" role="none">
                     <a
-                      href="#"
+                      href="/profile"
                       className="block px-4 py-2 w-28 text-sm text-center text-gray-700 hover:bg-indigo-500 hover:text-white"
                       role="menuitem"
                       onClick={toggleDropdown}

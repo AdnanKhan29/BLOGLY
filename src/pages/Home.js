@@ -29,10 +29,10 @@ function Home() {
                 />
                 <div class="ml-3">
                   <h3 class="font-semibold text-gray-800 dark:text-white">
-                    Maria Wanner
+                    ADNAN KHAN
                   </h3>
                   <p class="text-sm font-medium text-gray-400">
-                    maria@gmail.com
+                    adnan@gmail.com
                   </p>
                 </div>
               </div>
@@ -62,7 +62,7 @@ function Home() {
                   {/* Dropdown content goes here */}
                   <div className="py-1" role="none">
                     <a
-                      href="#"
+                      href="/profile"
                       className="block px-4 py-2 w-28 text-sm text-center text-gray-700 hover:bg-indigo-500 hover:text-white"
                       role="menuitem"
                       onClick={toggleDropdown}
@@ -137,11 +137,11 @@ function Home() {
       <section class="bg-center bg-no-repeat bg-main bg-cover bg-slate-300 bg-blend-multiply">
         <div class="px-4 min-h-screen mx-auto max-w-screen-xl text-center py-24 lg:py-56">
           <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
-            We invest in the world’s potential
+            Let the world see what you saw
           </h1>
           <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">
-            Here at Flowbite we focus on markets where technology, innovation,
-            and capital can unlock long-term value and drive economic growth.
+            Here at BLOGLY™ you can share ur blogs that let's people all over
+            the world experience you
           </p>
           <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 sm:space-x-4">
             <a
