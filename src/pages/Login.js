@@ -1,13 +1,31 @@
 import React from "react";
 import loginImg from "../components/login.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
+
+  // Function to handle the back button click
+  const handleBackClick = () => {
+    navigate(-1); // Go back to the previous page
+  };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="hidden sm:block">
         <img className="w-full h-full object-cover" src={loginImg} alt="" />
       </div>
       <div className="bg-white dark:bg-black flex flex-col justify-center">
+        <div className="text-left ml-5">
+          <button
+            onClick={handleBackClick}
+            className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+          >
+            <FontAwesomeIcon icon={faArrowLeft} className="" />
+          </button>
+        </div>
+
         <form className="max-w-[400px] w-full mx-auto rounded-lg bg-gray-150  p-8 px-8 shadow-2xl">
           <h2 className="text-4xl dark:text-white font-bold text-center">
             SIGN IN
