@@ -11,6 +11,9 @@ export default function Signup() {
   const handleBackClick = () => {
     navigate(-1); // Go back to the previous page
   };
+  const handleLinkClick = () => {
+    window.location.href = "/login";
+  };
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="bg-white dark:bg-black flex flex-col justify-center">
@@ -58,7 +61,9 @@ export default function Signup() {
             <p className="flex items-center">
               <input className="mr-2" type="checkbox" /> Remember Me
             </p>
-            <p>Already have an account?</p>
+            <a href="/login" onClick={handleLinkClick}>
+              <p>Already have an account?</p>
+            </a>
           </div>
           <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">
             SIGN UP

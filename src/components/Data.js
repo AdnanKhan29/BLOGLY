@@ -9,7 +9,7 @@ const Data = [
     title: "Poha",
     img: "https://c.ndtvimg.com/2019-05/1afu8vt8_weight-loss-friendly-breakfast-paneer-besan-chilla_625x300_25_May_19.jpg?im=FaceCrop,algorithm=dnn,width=620,height=350",
     url: "abcd",
-    category: ["Breakfast", "Dummy1", "Dummy2"],
+    category: ["Breakfast", "Travel", "Destination"],
     likedcount: "4",
     likedby: "mallesh",
     commentedBy: "asas",

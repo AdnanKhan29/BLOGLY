@@ -9,7 +9,7 @@ const Card = ({ item, dark }) => {
   const isCategoryArray = Array.isArray(item.category);
 
   // Define a class name based on the dark prop
-  const cardClassName = `max-w-4xl rounded overflow-hidden shadow-2xl mx-2 my-2 ${
+  const cardClassName = `max-w-screen rounded overflow-hidden shadow-2xl mx-2 my-2 ${
     dark
       ? "shadow-slate-500 border-gray-900 dark:bg-gray-850 dark:border-gray-900 dark:shadow-2xl dark:shadow-slate-700"
       : "shadow-gray-500 border-gray-300"

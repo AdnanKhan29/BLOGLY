@@ -1,4 +1,5 @@
 import React from "react";
+import CardSkeleton from "./CardSkeleton";
 
 function CardListSkeleton() {
   return (
@@ -17,7 +18,12 @@ function CardListSkeleton() {
         </div>
       </div>
 
-      <div className="col-span-8"></div>
+      <div className="col-span-8">
+        <CardSkeleton></CardSkeleton>
+        <CardSkeleton></CardSkeleton>
+        <CardSkeleton></CardSkeleton>
+        <CardSkeleton></CardSkeleton>
+      </div>
 
       <div className="col-span-2">
         <div class="clock">

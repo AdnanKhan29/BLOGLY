@@ -19,44 +19,6 @@ const CardList = () => {
   // Extract unique tags from the category
   const uniqueTags = Array.from(new Set(Data.map((item) => item.category)));
 
-  // Digital Clock
-  const WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  const [time, setTime] = useState("");
-  const [date, setDate] = useState("");
-
-  const zeroPadding = (num, digit) => {
-    return String(num).padStart(digit, "0");
-  };
-
-  const updateTime = () => {
-    const now = new Date();
-
-    setTime(
-      zeroPadding(now.getHours(), 2) +
-        ":" +
-        zeroPadding(now.getMinutes(), 2) +
-        ":" +
-        zeroPadding(now.getSeconds(), 2)
-    );
-
-    setDate(
-      now.getFullYear() +
-        "-" +
-        zeroPadding(now.getMonth() + 1, 2) +
-        "-" +
-        zeroPadding(now.getDate(), 2) +
-        " " +
-        WEEK[now.getDay()]
-    );
-  };
-
-  useEffect(() => {
-    updateTime();
-    const intervalId = setInterval(updateTime, 1000);
-
-    return () => clearInterval(intervalId);
-  }, []);
-
   const [isLoading, setIsLoading] = useState(true);
 
   // Simulate a loading delay
@@ -77,16 +39,18 @@ const CardList = () => {
         <div className="grid grid-cols-12 gap-4 xl:divide-x-2 xl:divide-y-0">
           <div className="col-span-2 divide-y-2">
             <div className="p-4 shadow-xl">
-              <h1>Top Tags </h1>
-              {/* Display all tags from the category */}
+              <h1>Top Tags</h1>
+              {/* Display all unique tags from the category */}
               <ul>
                 <br></br>
-                {uniqueTags.map((tag, index) => (
-                  <li
-                    key={index}
-                    className="bg-blue-500 text-white px-2 py-1 rounded-full inline-block mr-2 mb-2"
-                  >
-                    {tag}
+                {Array.from(
+                  new Set(Data.flatMap((item) => item.category)).values()
+                ).map((tag, index) => (
+                  <li key={index} className="mb-2">
+                    {/* Render each unique category element as a separate tag */}
+                    <span className="bg-blue-500 text-white px-2 py-1 rounded-full inline-block mr-2">
+                      {tag}
+                    </span>
                   </li>
                 ))}
               </ul>
@@ -111,12 +75,7 @@ const CardList = () => {
             </div>
           </div>
 
-          <div className="col-span-2">
-            <div className="clock">
-              <p id="date">{date}</p>
-              <p id="time">{time}</p>
-            </div>
-          </div>
+          <div className="col-span-2"></div>
         </div>
       )}
     </div>
