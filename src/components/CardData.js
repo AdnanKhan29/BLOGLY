@@ -249,10 +249,12 @@ const CardData = () => {
       )}
 
       {showDropDown && (
-        <div className="fixed top-0 right-0 mt-16 mr-4 p-4 bg-white border rounded-lg shadow-lg">
-          <p>Share this page:</p>
+        <div className="fixed top-0 right-0 mt-16 mr-10 p-4 bg-green-400 border rounded-lg shadow-lg w-1/4">
+          <p className="font-bold">Share:</p>
           <input type="text" value={window.location.href} readOnly />
-          <button onClick={handleShareClick}>Close</button>
+          <button onClick={handleShareClick} className="ml-4 font-bold">
+            Close
+          </button>
         </div>
       )}
     </div>
