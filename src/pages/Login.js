@@ -9,13 +9,13 @@ import axios from 'axios';
 export default function Login() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [responseData, setResponseData] = useState('Loading..');
+  const [responseData, setResponseData] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/auth/login', { "username":username, "password":password });
+      const response = await axios.post('http://localhost:8080/auth/login', { username, password });
       setResponseData(response.data);
       console.log(response.data);
       if (response.data === 'Login Successful') {
@@ -76,7 +76,7 @@ export default function Login() {
           <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">
             LOGIN
           </button>
-          {responseData}
+          <p className="text-center text-red-600">{responseData}</p>
         </form>
       </div>
     </div>

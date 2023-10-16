@@ -17,7 +17,11 @@ export default function Signup() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/auth/signup', { email,username, password,confirmpass });
+      const response = await axios.post('http://localhost:8080/auth/signup', {},{ 
+        params:{
+        "email" : email,"username" : username, "password" : password,"confirmpass":confirmpass
+        }
+       });
       setResponseData(response.data);
       console.log(response.data);
       if (response.data === 'User signed up successfully') {
