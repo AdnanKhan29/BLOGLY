@@ -11,6 +11,7 @@ import CardList from "./components/CardList";
 import CardData from "./components/CardData"; // Import the CardData component
 import AnnouncementAdd from "./pages/AnnouncementAdd";
 import CheckReport from "./pages/CheckReport";
+import LoginTest from "./components/LoginTest";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import UserProfile from "./pages/UserProfile";
@@ -21,6 +22,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/logintest" element={<LoginTest />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/profile" element={<UserProfile />} />
