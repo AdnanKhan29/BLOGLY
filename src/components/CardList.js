@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Data from "./Data";
 import Card from "./Card";
 import "./clockcss.css";
 import CardListSkeleton from "./CardListSkeleton";
+import axios from 'axios';
 
 const CardList = () => {
+   const [Data, setData] = useState([]);
   const [displayedData, setDisplayedData] = useState(Data.slice(0, 3)); // Initially display 6 items
 
   const loadMoreData = () => {
@@ -23,6 +24,20 @@ const CardList = () => {
 
   // Simulate a loading delay
   useEffect(() => {
+    
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:8081/blog/fetch/all');
+        setData(response.data);
+      } catch (error) {
+        console.error('An error occurred while fetching the blogs:', error);
+      }
+    };
+
+    fetchData();
+    console.log(Data);
+
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 1500);

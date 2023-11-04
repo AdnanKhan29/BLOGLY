@@ -6,14 +6,31 @@ import javax.persistence.Table;
 @Table(name="blogs")
 public class Blog {
 	
+	private int id;
+	private int likes;
     private String username;
     private String title;
     private String content;
+    public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
+	}
+	private String tags;
+    private byte[] image;
     
-	public Blog(String username, String title, String content) {
-		this.username = username;
-		this.title = title;
-		this.content = content;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getLikes() {
+		return likes;
+	}
+	public void setLikes(int likes) {
+		this.likes = likes;
 	}
 	public String getUsername() {
 		return username;
@@ -32,6 +49,12 @@ public class Blog {
 	}
 	public void setContent(String content) {
 		this.content = content;
+	}
+	public String getTags() {
+		return tags;
+	}
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
     
     

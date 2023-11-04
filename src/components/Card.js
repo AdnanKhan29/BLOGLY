@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CardSkeleton from "./CardSkeleton";
+import noimg from '../components/noimg.jpg'
 
 const Card = ({ item, dark }) => {
   // Check if item.category is an array
@@ -75,11 +76,10 @@ const Card = ({ item, dark }) => {
           >
             {item.title}
           </h2>
-          <img
-            className="w-full h-96 object-cover rounded-lg"
-            src={item.img}
-            alt={item.title}
-          />
+            { item.image==null? <img src="https://erf.org.eg/app/themes/website2020/resources/assets/images/placeholder.jpg" alt="No image"/>:
+          <img src={`data:image/jpeg;base64,${item.image.toString().replace("dataimage/jpegbase64","")}`} alt="blog" />
+            }
+
           <hr
             className={`my-3 border-t-2 ${
               dark ? "border-gray-700" : "border-gray-300"
@@ -95,11 +95,11 @@ const Card = ({ item, dark }) => {
                 dark ? "text-white" : "text-black"
               }`}
             >
-              {item.likedcount} Likes
+              {item.likes} Likes
             </span>
-            {isCategoryArray && (
+            {
               <div className="text-md font-normal text-gray-600">
-                {item.category.map((tag, index) => (
+                {item.tags.split(",").map((tag, index) => (
                   <span
                     key={index}
                     className={`mr-2 inline-flex items-center px-2 py-1 rounded-full ${
@@ -112,14 +112,14 @@ const Card = ({ item, dark }) => {
                   </span>
                 ))}
               </div>
-            )}
+            }
           </div>
           <div
             className={`text-lg font-medium ${
               dark ? "text-gray-300" : "text-black"
             }`}
           >
-            <p className="line-clamp-3">{item.desc} . . . </p>
+            <p className="line-clamp-3">{item.content} . . . </p>
           </div>
           <div className="text-center">
             <Link to={`/carddata/${item.id}`}>

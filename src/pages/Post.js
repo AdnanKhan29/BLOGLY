@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { CiImageOn } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
+import axios from "axios";
 
 function Post() {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,17 +66,41 @@ function Post() {
 
   const formSubmit = async (e) => {
     e.preventDefault();
-
-    // Simulate a successful post submission for demonstration purposes
+  
+    // Simulate a loading state for demonstration purposes
     setIsLoading(true); // Set loading state to true
+  
+    try {
+      const formData = new FormData();
+      formData.append("username", sessionStorage.getItem("username"));
+      formData.append("title", title);
+      formData.append("content", desc);
+      formData.append("tags", selectedTags.join(","));
+      formData.append("image", photo);
+  
+      const config = {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      };
+  
 
-    setTimeout(() => {
-      setIsLoading(false); // Set loading state back to false after a simulated delay
+      console.log(photo);
+      const response = await axios.post("http://localhost:8081/blog/post", formData, config);
+      console.log(response.data); // Log the response data
+      setIsLoading(false); // Set loading state back to false
       toast.success("Post Uploaded", {
         position: toast.POSITION.BOTTOM_RIGHT,
         autoClose: 3000,
       });
-    }, 2000);
+    } catch (error) {
+      setIsLoading(false); // Set loading state back to false
+      console.error("An error occurred while uploading the post:", error);
+      toast.error("Failed to upload post. Please try again later", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+        autoClose: 3000,
+      });
+    }
   };
 
   const handleSignout = () => {
