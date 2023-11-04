@@ -14,6 +14,7 @@ import CheckReport from "./pages/CheckReport";
 import LoginTest from "./components/LoginTest";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import UserProfile from "./pages/UserProfile";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path="/logintest" element={<LoginTest />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="/search" element={<Search />} />
           <Route path="/announcements" element={<Announcements />} />
           <Route path="/addannouncements" element={<AnnouncementAdd />} />

@@ -152,7 +152,7 @@ function Post() {
                   {/* Dropdown content goes here */}
                   <div className="py-1" role="none">
                     <a
-                      href="#"
+                      href="/profile"
                       className="block px-4 py-2 w-28 text-sm text-center text-gray-700 hover:bg-indigo-500 hover:text-white"
                       role="menuitem"
                       onClick={toggleDropdown}
