@@ -16,15 +16,23 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await axios.post('http://localhost:8080/auth/login', { username, password });
-      setResponseData(response.data);
-      console.log(response.data);
-      if (response.data === 'Login Successful') {
-        window.location.href = '/announcements'; // Replace '/home' with the actual path to your home page
+      const responseData = response.data;
+      const parts = responseData.split(":");
+      if (parts[0] === 'Login Successful') {
+        const receivedUsername = parts[1];
+        const receivedEmail = parts[2];
+        sessionStorage.setItem('username', receivedUsername);
+        sessionStorage.setItem('email', receivedEmail);
+        window.location.href = '/announcements'; // Replace '/announcements' with the actual path to your announcements page
+      } else {
+        // Handle other cases or display the response data as an error
+        console.log(responseData);
       }
     } catch (error) {
       console.error('Error signing up: ', error);
     }
   };
+
 
   // Function to handle the back button click
   const handleBackClick = () => {
@@ -71,7 +79,7 @@ export default function Login() {
             <p className="flex items-center">
               <input className="mr-2" type="checkbox" /> Remember Me
             </p>
-            <p>Forgot Password</p>
+            <a className="text-blue-500" href="/signup">Signup Instead</a>
           </div>
           <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">
             LOGIN

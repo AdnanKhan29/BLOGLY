@@ -1,31 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import loginImg from "../components/login.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
-import { useState } from 'react';
+import axios from 'axios';
 
 export default function Signup() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [email,setEmail] = useState('');
-  const [confirmpass,setConfirmpass] = useState('');
+  const [email, setEmail] = useState('');
+  const [confirmpass, setConfirmpass] = useState('');
   const [responseData, setResponseData] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8080/auth/signup', {},{ 
-        params:{
-        "email" : email,"username" : username, "password" : password,"confirmpass":confirmpass
-        }
-       });
+      const response = await axios.post('http://localhost:8080/auth/signup', {}, { 
+        params: { "email": email, "username": username, "password": password, "confirmpass": confirmpass }
+      });
       setResponseData(response.data);
-      console.log(response.data);
-      if (response.data === 'User signed up successfully') {
-        window.location.href = '/announcements'; // Replace '/home' with the actual path to your home page
+      if (response.data.startsWith('User signed up successfully:')) {
+        const dataArray = response.data.split(':');
+        const extractedUsername = dataArray[1];
+        const extractedEmail = dataArray[2];
+        sessionStorage.setItem('username', extractedUsername);
+        sessionStorage.setItem('email', extractedEmail);
+        window.location.href = '/announcements'; // Replace '/announcements' with the actual path to your announcements page
       }
     } catch (error) {
       console.error('Error signing up: ', error);
@@ -36,9 +37,7 @@ export default function Signup() {
   const handleBackClick = () => {
     navigate(-1); // Go back to the previous page
   };
-  const handleLinkClick = () => {
-    window.location.href = "/login";
-  };
+
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 h-screen w-full">
       <div className="bg-white dark:bg-black flex flex-col justify-center">
@@ -95,8 +94,8 @@ export default function Signup() {
             <p className="flex items-center">
               <input className="mr-2" type="checkbox" /> Remember Me
             </p>
-            <a href="/login" onClick={handleLinkClick}>
-              <p>Already have an account?</p>
+            <a href="/login" >
+              <p className="text-blue-500">Already have an account?</p>
             </a>
           </div>
           <button className="w-full my-5 py-2 bg-teal-500 shadow-lg shadow-teal-500/50 hover:shadow-teal-500/40 text-white font-semibold rounded-lg">
