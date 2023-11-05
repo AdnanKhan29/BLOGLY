@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import CardSkeleton from "./CardSkeleton";
-import noimg from '../components/noimg.jpg'
+import noimg from "../components/noimg.jpg";
 
 const Card = ({ item, dark }) => {
   // Check if item.category is an array
@@ -76,9 +76,19 @@ const Card = ({ item, dark }) => {
           >
             {item.title}
           </h2>
-            { item.image==null? <img src="https://erf.org.eg/app/themes/website2020/resources/assets/images/placeholder.jpg" alt="No image"/>:
-          <img src={`data:image/jpeg;base64,${item.image.toString().replace("dataimage/jpegbase64","")}`} alt="blog" />
-            }
+          {item.image == null ? (
+            <img
+              src="https://erf.org.eg/app/themes/website2020/resources/assets/images/placeholder.jpg"
+              alt="No image"
+            />
+          ) : (
+            <img
+              src={`data:image/jpeg;base64,${item.image
+                .toString()
+                .replace("dataimage/jpegbase64", "")}`}
+              alt="blog"
+            />
+          )}
 
           <hr
             className={`my-3 border-t-2 ${

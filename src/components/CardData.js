@@ -10,48 +10,52 @@ import {
   faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 import CommentSection from "./CommentSection";
-
+import axios from "axios";
 const CardData = () => {
   const { id } = useParams();
-  const postData = Data.find((item) => item.id === id);
   const navigate = useNavigate();
 
-  // Initialize state for like count and like status
-  const [likeCount, setLikeCount] = useState(postData.likedcount);
+  const [postData, setPostData] = useState(null);
+  const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
-
-  // State to manage screen width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // State to manage the visibility of the report form
   const [showReportForm, setShowReportForm] = useState(false);
-  // State to manage the visibility of the drop-down message
   const [showDropDown, setShowDropDown] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // Update windowWidth when the window is resized
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`your_api_endpoint/${id}`);
+        const data = response.data;
+
+        setPostData(data);
+        setLikeCount(data.likedcount);
+        setLoading(false);
+      } catch (error) {
+        setError("Error fetching data. Please try again later.");
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
 
     window.addEventListener("resize", handleResize);
 
-    // Remove event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [id]);
 
-  if (!postData) {
-    return <div className="container mx-auto p-4">Post not found</div>;
-  }
-
-  // Function to handle the back button click
   const handleBackClick = () => {
-    navigate(-1); // Go back to the previous page
+    navigate(-1);
   };
 
-  // Function to handle like button click
   const handleLikeClick = () => {
     if (liked) {
       setLikeCount(likeCount - 1);
@@ -61,12 +65,32 @@ const CardData = () => {
     setLiked(!liked);
   };
 
-  // Function to handle share button click
+  const openReportForm = () => {
+    setShowReportForm(true);
+  };
+
+  const closeReportForm = () => {
+    setShowReportForm(false);
+  };
+
+  const handleReportSubmit = (event) => {
+    event.preventDefault();
+    // You can implement the report submission logic here
+    closeReportForm();
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   const handleShareClick = () => {
     setShowDropDown(!showDropDown);
     const currentURL = window.location.href;
 
-    // Use the Clipboard API to copy the URL to the clipboard
     navigator.clipboard
       .writeText(currentURL)
       .then(() => {
@@ -76,23 +100,6 @@ const CardData = () => {
         console.error("Failed to copy link: ", error);
       });
   };
-  const openReportForm = () => {
-    setShowReportForm(true);
-  };
-
-  // Function to close the report form
-  const closeReportForm = () => {
-    setShowReportForm(false);
-  };
-
-  // Function to handle report form submission
-  const handleReportSubmit = (event) => {
-    event.preventDefault();
-    // You can implement the report submission logic here
-    // e.g., send a report to the server
-    closeReportForm(); // Close the report form after submission
-  };
-
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-4 gap-4">
@@ -245,16 +252,6 @@ const CardData = () => {
               Cancel
             </button>
           </div>
-        </div>
-      )}
-
-      {showDropDown && (
-        <div className="fixed top-0 right-0 mt-16 mr-10 p-4 bg-green-400 border rounded-lg shadow-lg w-1/4">
-          <p className="font-bold">Share:</p>
-          <input type="text" value={window.location.href} readOnly />
-          <button onClick={handleShareClick} className="ml-4 font-bold">
-            Close
-          </button>
         </div>
       )}
     </div>

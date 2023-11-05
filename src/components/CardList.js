@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import Card from "./Card";
 import "./clockcss.css";
 import CardListSkeleton from "./CardListSkeleton";
-import axios from 'axios';
+import axios from "axios";
 
 const CardList = () => {
-   const [Data, setData] = useState([]);
-  const [displayedData, setDisplayedData] = useState(Data.slice(0, 3)); // Initially display 6 items
+  const [Data, setData] = useState([]);
+  const [displayedData, setDisplayedData] = useState(Data.slice(1, 3)); // Initially display 6 items
 
   const loadMoreData = () => {
     // Calculate how many more items to display
@@ -24,14 +24,14 @@ const CardList = () => {
 
   // Simulate a loading delay
   useEffect(() => {
-    
-
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:8081/blog/fetch/all');
+        const response = await axios.get(
+          "http://localhost:8081/blog/fetch/all"
+        );
         setData(response.data);
       } catch (error) {
-        console.error('An error occurred while fetching the blogs:', error);
+        console.error("An error occurred while fetching the blogs:", error);
       }
     };
 
@@ -59,7 +59,7 @@ const CardList = () => {
               <ul>
                 <br></br>
                 {Array.from(
-                  new Set(Data.flatMap((item) => item.category)).values()
+                  new Set(Data.flatMap((item) => item.tags.split(","))).values()
                 ).map((tag, index) => (
                   <li key={index} className="mb-2">
                     {/* Render each unique category element as a separate tag */}
