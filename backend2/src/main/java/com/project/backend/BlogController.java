@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.project.models.Blog;
+import com.project.models.Comment;
 
 import java.util.List;
 
@@ -82,6 +83,31 @@ public class BlogController {
         	System.out.print(e.toString());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                                  .body(e.toString());
+        }
+    }
+    
+    @PostMapping("/comment")
+    public String Comment(@RequestParam int id, @RequestParam String username, @RequestParam String comment) {
+        try {
+            String sql = "INSERT INTO comments (id, username, comment) VALUES (?, ?, ?)";
+            jdbcTemplate.update(sql, id, username, comment);
+            return "Comment added successfully";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "An error occurred while adding the comment";
+        }
+    }
+    
+    @GetMapping("/fetch/comments")
+    public ResponseEntity<?> getCommentsById(@RequestParam int id) {
+        try {
+            String sql = "SELECT * FROM comments WHERE id = ?";
+            List<Comment> comment = jdbcTemplate.query(sql, new CommentRowMapper(), new Object[] { id });
+            return ResponseEntity.ok(comment);
+        } catch (EmptyResultDataAccessException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No Comments");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred while fetching comments");
         }
     }
 

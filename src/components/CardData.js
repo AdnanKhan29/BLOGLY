@@ -10,14 +10,15 @@ import {
   faFlag,
 } from "@fortawesome/free-solid-svg-icons";
 import CommentSection from "./CommentSection";
+import axios from 'axios'
 
 const CardData = () => {
   const { id } = useParams();
-  const postData = Data.find((item) => item.id === id);
+  const [postData,setPostData] = useState(null);
   const navigate = useNavigate();
 
   // Initialize state for like count and like status
-  const [likeCount, setLikeCount] = useState(postData.likedcount);
+  const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
 
   // State to manage screen width
@@ -29,22 +30,25 @@ const CardData = () => {
   const [showDropDown, setShowDropDown] = useState(false);
 
   useEffect(() => {
-    // Update windowWidth when the window is resized
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+
+
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`http://localhost:8081/blog/fetch?id=${id}`);
+        setPostData(response.data);
+        setLikeCount(response.data.likes)
+      } catch (error) {
+        console.error('Failed to fetch blog data:', error);
+      }
     };
 
-    window.addEventListener("resize", handleResize);
+    fetchData();
 
-    // Remove event listener on component unmount
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
-  if (!postData) {
-    return <div className="container mx-auto p-4">Post not found</div>;
-  }
+
+
+
 
   // Function to handle the back button click
   const handleBackClick = () => {
@@ -93,6 +97,10 @@ const CardData = () => {
     closeReportForm(); // Close the report form after submission
   };
 
+  if (postData==null) {
+    return <div className="container mx-auto p-4">Loading...</div>;
+  }
+  else
   return (
     <div className="container mx-auto p-4">
       <div className="grid grid-cols-4 gap-4">
@@ -108,11 +116,11 @@ const CardData = () => {
           </div>
           <h1 className="text-3xl font-semibold mb-4">{postData.title}</h1>
           <div className="flex items-center mb-4">
-            <img
-              src={postData.profileImg}
-              alt={postData.username}
-              className="w-12 h-12 rounded-full mr-4"
-            />
+          <img
+                  class="inline-block flex-shrink-0 h-10 w-10 rounded-full"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAPFBMVEXk5ueutLepsLPo6uursbXJzc/p6+zj5ea2u76orrKvtbi0ubzZ3N3O0dPAxcfg4uPMz9HU19i8wcPDx8qKXtGiAAAFTElEQVR4nO2d3XqzIAyAhUD916L3f6+f1m7tVvtNINFg8x5tZ32fQAIoMcsEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQTghAJD1jWtnXJPP/54IgNzZQulSmxvTH6oYXX4WS+ivhTbqBa1r26cvCdCu6i0YXbdZ0o4A1rzV+5IcE3YE+z58T45lqo7g1Aa/JY5tgoqQF3qb382x7lNzBLcxft+O17QUYfQI4IIeklKsPSN4i6LKj/7Zm8n99RbHJpEw9gEBXNBpKIYLJqKYRwjOikf//r+J8ZsVuacbqCMNleI9TqGLGqMzhnVdBOdd6F/RlrFijiCoVMk320CBIahUxTWI0KKEcJqKbMdpdJb5QvdHq6wCI5qhKlgGMS/RBHkubWDAE+QZxB4xhCyDiDkLZxgGEVdQldzSKbTIhmZkFkSEPcVvmBn2SMuZB9od7fQDsMiDdKJjFUSCQarM5WirZ3C2TT/htYnyPcPfgrFHWz0BI74gr6J/IZiGUxAZGQLqmvQLTrtE/Go4YxhVRIpEw+sww1IIcqr5NKmUUzLF3d4/qPkYIp2T/obPuemlojFUR4t9Q2Vojhb7BmgElWHzLPH8hucfpefPNFTVgs9h1AdU/Pin96vwWbWdf+X9Absn3OdO34aMdsDnP8WgKYisTqI6CkNGqZQo1XA6Ef6AU32SJzOcBukHPF07/xNSgmHKa5BOhtezv6mA/rYJpwXNAnbRZ1XuF3BzDcO3vpA3+ny2909gbqE4hhD3LIPhLLyBNhPZvbZ3B+3tPYa18A7auSlXQayKwTPNLKDcuOB0xPYKDPFTkWsevQPRZ1J8Hji9I1KQ34r7hZhrwNwOZ97QxNx0drwn4QI0wQk1DcEsfKCWKdxVvxPSNUIp/knmAXT+nT+Ko3+0H96rcNb3m1fx7MBTJdeBJ7uFcWsc0wvgAsC4pROW0l2inbAmIBv/7GZmuhQH6API2rr8T0e6yuZJ+80A9LZeG62T3tik31XwxtwZcizKuTHkMjB1WdZde4Kmic/A5ZI3rr1ae21d08PlVHYfAaxw9G9CYRbJ+8ZdbTcMRV1XM3VdF0M32vtoTdZ0+u29s0OttJ5bz64UwinjaFMVY9vkqc3KKSxN21Xl+0L4Q3Vuv1tYl0pqnX6ms4XetFz7gdZVAgUEoJntfOUe4ZwsHd9FzqQ3Vv6xe41l0XJcqcKl6TZvlv7ClAW3BsqQW4X7ypApB8dmTgK4IX5wvqIVj33HtD2qSG4BqznxdIefL27Y4sahi0MdIdvUsDva8agGGbCtITmCY31MHD2O0uIdh/0rJDQ1VX5Zdxz3rR2QDbv6qXl9vudzqQtGm1Jv9LDXOsfvvB7VcZ8PDKD0mQ1VHPYQ9O+Yj4hR1IUD8rBnn3ho2m8oQMxbCFiKlL2ioSW5heeJqegED52CzxCtcGD3Kv8Wms9EYLyUhwaFIhSMBClevWEmiK/Iaogu4H7sg6ppQhQG8RUqivuTGOAJOg6FfgW0q0M0PQMRMEgXaeNf3SYDZ8PIMI0+wHgr/MgN7wYwpiLjCCqM6ydUDZLQiB6nDdNC8SDyig3jPPpFXGcC9O8BUBDVmgBY59E7Md/35Loe/UVEECEJwYggJjELZ4J71SaQSBeC02n4Da29CayJNA28SAhd2CQyC1Xw6pSmGSINQVuMhAZp4DClan9MgmkDDNmezqwS8sgtlXK/EPBhoaSmYVC/F7IO1jQEdHOlabpKh3+jzLQSTUiq4X2I+Ip/zU8rlaqAvkS21ElR+gqu3zbjjL+hIAiCIAiCIAiCIAiCsCf/AKrfVhSbvA+DAAAAAElFTkSuQmCC"
+                  alt="Image Description"
+                />
             <div>
               <a
                 href={postData.profileUrl}
@@ -123,21 +131,22 @@ const CardData = () => {
               <div className="text-gray-600">{postData.date}</div>
             </div>
           </div>
-          <img
-            className="w-full h-96 object-cover rounded-lg mb-4"
-            src={postData.img}
-            alt={postData.title}
-          />
+
+          { postData.image==null? <img src="https://erf.org.eg/app/themes/website2020/resources/assets/images/placeholder.jpg" alt="No image"/>:
+          <img src={`data:image/jpeg;base64,${postData.image.toString().replace("dataimage/jpegbase64","")}`} alt="blog" />
+            }
+
+
           <div className="mb-4 text-md font-normal text-black dark:text-gray-300">
             <span className="text-lg font-semibold">
-              {postData.likedcount} Likes
+              {postData.likes} Likes
             </span>
           </div>
           <div className="text-lg font-medium">
             {/* Remove the 'clamp-2' class to display the whole description */}
-            <p className="mb-4">{postData.desc}</p>
+            <p className="mb-4">{postData.content}</p>
             <div className="text-md font-normal text-gray-600">
-              {postData.category.map((tag, index) => (
+              {postData.tags.split(",").map((tag, index) => (
                 <span
                   key={index}
                   className="mr-2 inline-flex items-center px-2 py-1 rounded-full bg-gray-300 text-gray-700 dark:bg-gray-600 dark:text-gray-200"
@@ -181,18 +190,13 @@ const CardData = () => {
         {windowWidth > 768 ? ( // Render the profile card only when the screen width is greater than 768px
           <div className="bg-white my-12 pb-6 w-full justify-center items-center overflow-hidden md:max-w-sm rounded-lg shadow-xl mx-auto h-96">
             <div className="relative h-40">
-              <img
-                className="absolute h-full w-full object-cover"
-                src={postData.profileImg}
-                alt={postData.username}
-              />
             </div>
             <div className="relative shadow mx-auto h-24 w-24 -my-12 border-white rounded-full overflow-hidden border-4">
-              <img
-                className="object-cover w-full h-full"
-                src={postData.profileImg}
-                alt={postData.username}
-              />
+            <img
+                  class="inline-block flex-shrink-0  rounded-full"
+                  src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOEAAADhCAMAAAAJbSJIAAAAPFBMVEXk5ueutLepsLPo6uursbXJzc/p6+zj5ea2u76orrKvtbi0ubzZ3N3O0dPAxcfg4uPMz9HU19i8wcPDx8qKXtGiAAAFTElEQVR4nO2d3XqzIAyAhUD916L3f6+f1m7tVvtNINFg8x5tZ32fQAIoMcsEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQRAEQTghAJD1jWtnXJPP/54IgNzZQulSmxvTH6oYXX4WS+ivhTbqBa1r26cvCdCu6i0YXbdZ0o4A1rzV+5IcE3YE+z58T45lqo7g1Aa/JY5tgoqQF3qb382x7lNzBLcxft+O17QUYfQI4IIeklKsPSN4i6LKj/7Zm8n99RbHJpEw9gEBXNBpKIYLJqKYRwjOikf//r+J8ZsVuacbqCMNleI9TqGLGqMzhnVdBOdd6F/RlrFijiCoVMk320CBIahUxTWI0KKEcJqKbMdpdJb5QvdHq6wCI5qhKlgGMS/RBHkubWDAE+QZxB4xhCyDiDkLZxgGEVdQldzSKbTIhmZkFkSEPcVvmBn2SMuZB9od7fQDsMiDdKJjFUSCQarM5WirZ3C2TT/htYnyPcPfgrFHWz0BI74gr6J/IZiGUxAZGQLqmvQLTrtE/Go4YxhVRIpEw+sww1IIcqr5NKmUUzLF3d4/qPkYIp2T/obPuemlojFUR4t9Q2Vojhb7BmgElWHzLPH8hucfpefPNFTVgs9h1AdU/Pin96vwWbWdf+X9Absn3OdO34aMdsDnP8WgKYisTqI6CkNGqZQo1XA6Ef6AU32SJzOcBukHPF07/xNSgmHKa5BOhtezv6mA/rYJpwXNAnbRZ1XuF3BzDcO3vpA3+ny2909gbqE4hhD3LIPhLLyBNhPZvbZ3B+3tPYa18A7auSlXQayKwTPNLKDcuOB0xPYKDPFTkWsevQPRZ1J8Hji9I1KQ34r7hZhrwNwOZ97QxNx0drwn4QI0wQk1DcEsfKCWKdxVvxPSNUIp/knmAXT+nT+Ko3+0H96rcNb3m1fx7MBTJdeBJ7uFcWsc0wvgAsC4pROW0l2inbAmIBv/7GZmuhQH6API2rr8T0e6yuZJ+80A9LZeG62T3tik31XwxtwZcizKuTHkMjB1WdZde4Kmic/A5ZI3rr1ae21d08PlVHYfAaxw9G9CYRbJ+8ZdbTcMRV1XM3VdF0M32vtoTdZ0+u29s0OttJ5bz64UwinjaFMVY9vkqc3KKSxN21Xl+0L4Q3Vuv1tYl0pqnX6ms4XetFz7gdZVAgUEoJntfOUe4ZwsHd9FzqQ3Vv6xe41l0XJcqcKl6TZvlv7ClAW3BsqQW4X7ypApB8dmTgK4IX5wvqIVj33HtD2qSG4BqznxdIefL27Y4sahi0MdIdvUsDva8agGGbCtITmCY31MHD2O0uIdh/0rJDQ1VX5Zdxz3rR2QDbv6qXl9vudzqQtGm1Jv9LDXOsfvvB7VcZ8PDKD0mQ1VHPYQ9O+Yj4hR1IUD8rBnn3ho2m8oQMxbCFiKlL2ioSW5heeJqegED52CzxCtcGD3Kv8Wms9EYLyUhwaFIhSMBClevWEmiK/Iaogu4H7sg6ppQhQG8RUqivuTGOAJOg6FfgW0q0M0PQMRMEgXaeNf3SYDZ8PIMI0+wHgr/MgN7wYwpiLjCCqM6ydUDZLQiB6nDdNC8SDyig3jPPpFXGcC9O8BUBDVmgBY59E7Md/35Loe/UVEECEJwYggJjELZ4J71SaQSBeC02n4Da29CayJNA28SAhd2CQyC1Xw6pSmGSINQVuMhAZp4DClan9MgmkDDNmezqwS8sgtlXK/EPBhoaSmYVC/F7IO1jQEdHOlabpKh3+jzLQSTUiq4X2I+Ip/zU8rlaqAvkS21ElR+gqu3zbjjL+hIAiCIAiCIAiCIAiCsCf/AKrfVhSbvA+DAAAAAElFTkSuQmCC"
+                  alt="Image Description"
+                />
             </div>
             <div className="mt-16">
               <h1 className="text-lg text-center font-semibold">
@@ -203,7 +207,7 @@ const CardData = () => {
               </p>
             </div>
             <div className="mt-6 pt-3 flex flex-wrap mx-6 border-t">
-              {postData.category.map((category, index) => (
+              {postData.tags.split(",").map((category, index) => (
                 <div
                   key={index}
                   className="text-xs mr-2 my-1 uppercase tracking-wider border px-2 py-1 rounded-full bg-gray-300 text-gray-700 dark:bg-gray-600 dark:text-gray-200 hover:bg-gray-400 hover:text-gray-800 cursor-default"

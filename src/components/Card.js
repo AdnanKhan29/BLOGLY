@@ -133,6 +133,10 @@ const Card = ({ item, dark }) => {
               </button>
             </Link>
           </div>
+
+
+
+          
         </div>
       )}
     </div>
