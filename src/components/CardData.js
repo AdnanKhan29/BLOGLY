@@ -20,14 +20,11 @@ const CardData = () => {
   // Initialize state for like count and like status
   const [likeCount, setLikeCount] = useState(0);
   const [liked, setLiked] = useState(false);
-
-  // State to manage screen width
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
-
-  // State to manage the visibility of the report form
   const [showReportForm, setShowReportForm] = useState(false);
-  // State to manage the visibility of the drop-down message
   const [showDropDown, setShowDropDown] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
 
@@ -52,10 +49,9 @@ const CardData = () => {
 
   // Function to handle the back button click
   const handleBackClick = () => {
-    navigate(-1); // Go back to the previous page
+    navigate(-1);
   };
 
-  // Function to handle like button click
   const handleLikeClick = () => {
     if (liked) {
       setLikeCount(likeCount - 1);
@@ -65,12 +61,20 @@ const CardData = () => {
     setLiked(!liked);
   };
 
-  // Function to handle share button click
+
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   const handleShareClick = () => {
     setShowDropDown(!showDropDown);
     const currentURL = window.location.href;
 
-    // Use the Clipboard API to copy the URL to the clipboard
     navigator.clipboard
       .writeText(currentURL)
       .then(() => {
@@ -249,16 +253,6 @@ const CardData = () => {
               Cancel
             </button>
           </div>
-        </div>
-      )}
-
-      {showDropDown && (
-        <div className="fixed top-0 right-0 mt-16 mr-10 p-4 bg-green-400 border rounded-lg shadow-lg w-1/4">
-          <p className="font-bold">Share:</p>
-          <input type="text" value={window.location.href} readOnly />
-          <button onClick={handleShareClick} className="ml-4 font-bold">
-            Close
-          </button>
         </div>
       )}
     </div>
